@@ -11,6 +11,7 @@ const int Wall=2;
 void inits();
 void resize(int w, int h);
 void keyboard(unsigned char key, int x, int y);
+void mouse(int button, int state, int x, int y);
 void display();
 
 void glutDispBoard();
@@ -22,15 +23,14 @@ Board board;
 int main(int argc, char* argv[]){
 	glutInit(&argc, argv);
 	glutCreateWindow("OtelloGL");
-	gluOrtho2D(0, 800, 800, 0);
 	inits();
 	glutDisplayFunc(display);
-	glutKeyboardFunc(keyboard);
 	glutReshapeFunc(resize);
+	glutKeyboardFunc(keyboard);
+	glutMouseFunc(mouse);
 	glutMainLoop();
 	return 0;
 }
-
 
 void inits(){
 	static const int WindowSizeWight=800;
@@ -38,7 +38,8 @@ void inits(){
 
 	static const int WindowPositionWight=100;
 	static const int WindowPositionHeight=100;
-
+	
+	gluOrtho2D(0, 800, 800, 0); //座標系の設定
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
 	glutInitWindowPosition(WindowPositionWight, WindowPositionHeight);
 	glutInitWindowSize(WindowSizeWight, WindowSizeHeight);
@@ -74,6 +75,7 @@ void keyboard(unsigned char key, int x, int y){
 void display(){
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	glutDispBoard();
+	glutDispStone();
 	glFlush();
 }
 
@@ -106,10 +108,25 @@ void glutDispBoard(){
 	glVertex2i(560, 240);
 	glVertex2i(560, 560);
 	glEnd();
-    
-	glFlush();  //描画実行
 }
 void glutDispStone(){
 
+}
+
+void mouse(int button, int state, int x, int y){
+	if(state==GLUT_UP) return;
+	switch(button){
+	case GLUT_LEFT_BUTTON:
+		std::cout<<"left button"<<std::endl;		
+		break;
+	case GLUT_RIGHT_BUTTON:
+		std::cout<<"right button"<<std::endl;
+		break;
+	case GLUT_MIDDLE_BUTTON:
+		std::cout<<"middle button"<<std::endl;		
+		break;
+	default:
+		break;
+	}
 }
 
