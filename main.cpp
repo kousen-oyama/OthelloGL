@@ -21,7 +21,7 @@ Board board;
 
 int main(int argc, char* argv[]){
 	glutInit(&argc, argv);
-	glutCreateWindow("OteroGL");
+	glutCreateWindow("OtelloGL");
 	gluOrtho2D(0, 800, 800, 0);
 	inits();
 	glutDisplayFunc(display);
