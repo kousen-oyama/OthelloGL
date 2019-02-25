@@ -1,12 +1,8 @@
 #include<iostream>
+#include<algorithm>
+#include<vector>
 #include"game.hpp"
 #include"GL/glut.h"
-
-const int BoardSize=8;
-
-const int Black=0;
-const int White=1;
-const int Wall=2;
 
 void inits();
 void resize(int w, int h);
@@ -16,6 +12,9 @@ void display();
 
 void glutDispBoard();
 void glutDispStone();
+
+GLdouble black[]={0.0, 0.0, 0.0};
+GLdouble green[]={0.0, 0.5, 0.0};
 
 Game game;
 Board board;
@@ -43,7 +42,7 @@ void inits(){
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
 	glutInitWindowPosition(WindowPositionWight, WindowPositionHeight);
 	glutInitWindowSize(WindowSizeWight, WindowSizeHeight);
-	glClearColor(0, 0.5, 0, 1); //盤の色を緑に設定
+	glClearColor(0.0f, 0.5f, 0.0f, 1.0f); //盤の色を緑に設定
 
 	//---点を丸く打つための処理---
 	//点にアンチエリアシング処理を行う 
@@ -86,7 +85,7 @@ void glutDispBoard(){
 	static const int pointSize=12;
 	
 	//盤面のマス目作成
-	glColor3d(0.0, 0.0, 0.0);
+	glColor3dv(black);
 	glLineWidth(lineSize);
 	glBegin(GL_LINES);
     
@@ -100,7 +99,7 @@ void glutDispBoard(){
 	glEnd();
     
 	//盤面上の4点の描画
-	glColor3d(0.0, 0.0, 0.0);
+	glColor3dv(black);
 	glPointSize(pointSize);
 	glBegin(GL_POINTS);
 	glVertex2i(240, 240);
@@ -110,7 +109,7 @@ void glutDispBoard(){
 	glEnd();
 }
 void glutDispStone(){
-
+	
 }
 
 void mouse(int button, int state, int x, int y){
