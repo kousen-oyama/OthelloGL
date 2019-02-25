@@ -42,7 +42,7 @@ void inits(){
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
 	glutInitWindowPosition(WindowPositionWight, WindowPositionHeight);
 	glutInitWindowSize(WindowSizeWight, WindowSizeHeight);
-	glClearColor(0, 0.5, 0, 1);
+	glClearColor(0, 0.5, 0, 1); //盤の色を緑に設定
 
 	//---点を丸く打つための処理---
 	//点にアンチエリアシング処理を行う 
@@ -79,10 +79,13 @@ void display(){
 
 void glutDispBoard(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
+
+	static const int lineSize=4;
+	static const int pointSize=12;
+	
 	//盤面のマス目作成
 	glColor3d(0.0, 0.0, 0.0);
-	glLineWidth(3);
+	glLineWidth(lineSize);
 	glBegin(GL_LINES);
     
 	for(int i = 0; i <= BoardSize; i++){
@@ -96,7 +99,7 @@ void glutDispBoard(){
     
 	//盤面上の4点の描画
 	glColor3d(0.0, 0.0, 0.0);
-	glPointSize(10);
+	glPointSize(pointSize);
 	glBegin(GL_POINTS);
 	glVertex2i(240, 240);
 	glVertex2i(240, 560);
