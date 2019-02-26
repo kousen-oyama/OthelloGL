@@ -76,8 +76,13 @@ void keyboard(unsigned char key, int x, int y){
 }
 
 void mouse(int button, int state, int x, int y){
-	if(state==GLUT_UP) return;
-	
+	const bool input=(button==GLUT_LEFT_BUTTON&&state==GLUT_DOWN);
+	const bool coord=(x<celSize||x>celSize*9||y<celSize||y>celSize*9);
+	if(!input||coord)  return;
+	//入力された座標を処理する形式へ変換
+	const int i=x/celSize;
+	const int j=y/celSize;
+	std::cout<<"("<<x<<","<<y<<") > "<<"("<<i<<","<<j<<")"<<std::endl;
 }
 
 void display(){
@@ -118,8 +123,6 @@ void glutDispBoard(){
 	glEnd();
 }
 
-
-
 void glutDispStone(){
 	Coord coord(0, 0);
 	int stone;
@@ -131,18 +134,12 @@ void glutDispStone(){
 		for(int j=0;j<BoardSize;j++){
 			coord.set(i, j);
 			stone=game.board.get(coord);
-			if(stone==Black){
-				glColor3dv(black);
-				glBegin(GL_POINTS);
-				glVertex2i(num+celSize*i, num+celSize*j);
-				glEnd();
-			}
-			if(stone==White){
-				glColor3dv(white);
-				glBegin(GL_POINTS);
-				glVertex2i(num+celSize*i, num+celSize*j);
-				glEnd();
-			}
+			if(stone==Wall)
+				 continue;
+			glColor3dv(stone?white:black);
+			glBegin(GL_POINTS);
+			glVertex2i(num+celSize*i, num+celSize*j);
+			glEnd();
 		}
 	}
 }
@@ -151,6 +148,7 @@ void ConsoleDisp(){
 	Coord coord(0, 0);
 	char state[]={'x','o','-'};
 	int stone;
+	
 	std::cout<<" 12345678"<<std::endl;
 	for(int i=0;i<BoardSize;i++){
 		std::cout<<i+1;
@@ -161,6 +159,7 @@ void ConsoleDisp(){
 		}
 		std::cout<<std::endl;
 	}
+	
 	std::cout<<std::endl;
 }
 
