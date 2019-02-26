@@ -4,6 +4,8 @@
 #include"game.hpp"
 #include"GL/glut.h"
 
+const int celSize=50;
+
 void inits();
 void resize(int w, int h);
 void keyboard(unsigned char key, int x, int y);
@@ -75,19 +77,7 @@ void keyboard(unsigned char key, int x, int y){
 
 void mouse(int button, int state, int x, int y){
 	if(state==GLUT_UP) return;
-	switch(button){
-	case GLUT_LEFT_BUTTON:
-		std::cout<<"left button"<<std::endl;		
-		break;
-	case GLUT_RIGHT_BUTTON:
-		std::cout<<"right button"<<std::endl;
-		break;
-	case GLUT_MIDDLE_BUTTON:
-		std::cout<<"middle button"<<std::endl;		
-		break;
-	default:
-		break;
-	}
+	
 }
 
 void display(){
@@ -100,8 +90,8 @@ void display(){
 void glutDispBoard(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	static const int lineSize=4;
-	static const int pointSize=12;
+	static const int lineSize=3;
+	static const int pointSize=11;
 	
 	//盤面のマス目作成
 	glColor3dv(black);
@@ -109,11 +99,11 @@ void glutDispBoard(){
 	glBegin(GL_LINES);
     
 	for(int i = 0; i <= BoardSize; i++){
-		glVertex2i(80 + 80 * i, 720);
-		glVertex2i(80 + 80 * i, 80);
+		glVertex2i(celSize + celSize * i, celSize * 9);
+		glVertex2i(celSize + celSize * i, celSize);
         
-		glVertex2i(80, 80 + 80 * i);
-		glVertex2i(720, 80 + 80 * i);
+		glVertex2i(celSize, celSize + celSize * i);
+		glVertex2i(celSize * 9, celSize + celSize * i);
 	}
 	glEnd();
     
@@ -121,16 +111,21 @@ void glutDispBoard(){
 	glColor3dv(black);
 	glPointSize(pointSize);
 	glBegin(GL_POINTS);
-	glVertex2i(240, 240);
-	glVertex2i(240, 560);
-	glVertex2i(560, 240);
-	glVertex2i(560, 560);
+	glVertex2i(celSize*3, celSize*3);
+	glVertex2i(celSize*3, celSize*7);
+	glVertex2i(celSize*7, celSize*3);
+	glVertex2i(celSize*7, celSize*7);
 	glEnd();
 }
+
+
+
 void glutDispStone(){
 	Coord coord(0, 0);
 	int stone;
-	static const int pointSize=60;
+	const int num=celSize+celSize/2;
+	static const int pointSize=40;
+	
 	glPointSize(pointSize);
 	for(int i=0;i<BoardSize;i++){
 		for(int j=0;j<BoardSize;j++){
@@ -139,13 +134,13 @@ void glutDispStone(){
 			if(stone==Black){
 				glColor3dv(black);
 				glBegin(GL_POINTS);
-				glVertex2i(120+80*i, 120+80*j);
+				glVertex2i(num+celSize*i, num+celSize*j);
 				glEnd();
 			}
 			if(stone==White){
 				glColor3dv(white);
 				glBegin(GL_POINTS);
-				glVertex2i(120+80*i, 120+80*j);
+				glVertex2i(num+celSize*i, num+celSize*j);
 				glEnd();
 			}
 		}
