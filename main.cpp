@@ -14,7 +14,11 @@ void display();
 
 void glutDispBoard();
 void glutDispStone();
+
+void glutDispScoreAndTurn();
+
 void ConsoleDisp();
+void renderString(const float x, const float y, const char* string);
 
 GLdouble black[]={0.0, 0.0, 0.0};
 GLdouble white[]={1.0, 1.0, 1.0};
@@ -26,9 +30,8 @@ int main(int argc, char* argv[]){
 	glutInit(&argc, argv);
 	glutCreateWindow("OtelloGL");
 	inits();
-	ConsoleDisp();
 	glutDisplayFunc(display);
-	glutReshapeFunc(resize);
+ 	glutReshapeFunc(resize);
 	glutKeyboardFunc(keyboard);
 	glutMouseFunc(mouse);
 	glutMainLoop();
@@ -89,6 +92,8 @@ void display(){
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	glutDispBoard();
 	glutDispStone();
+	ConsoleDisp();
+	glutDispScoreAndTurn();
 	glFlush();
 }
 
@@ -126,16 +131,15 @@ void glutDispBoard(){
 void glutDispStone(){
 	Coord coord(0, 0);
 	int stone;
-	const int num=celSize+celSize/2;
+	const int num=celSize/2;
 	static const int pointSize=40;
-	
 	glPointSize(pointSize);
-	for(int i=0;i<BoardSize;i++){
-		for(int j=0;j<BoardSize;j++){
+	for(int i=1;i<=BoardSize;i++){
+		for(int j=1;j<=BoardSize;j++){
 			coord.set(i, j);
 			stone=game.board.get(coord);
-			if(stone==Wall)
-				 continue;
+			if(stone==Empty||stone==Wall)
+				continue;
 			glColor3dv(stone?white:black);
 			glBegin(GL_POINTS);
 			glVertex2i(num+celSize*i, num+celSize*j);
@@ -144,22 +148,42 @@ void glutDispStone(){
 	}
 }
 
+void glutDispScoreAndTurn(){
+	std::cout<<"turn"<<game.order.get()+1<<std::endl;
+	std::cout<<"black"<<game.score.at(Black).get()<<std::endl;
+	std::cout<<"black"<<game.score.at(White).get()<<std::endl<<std::endl;;
+	
+	/*glLoadIdentity();
+	
+	renderString(-0.6f, -0.6f, "BLACK:");
+	renderString(-0.6f, -0.7f, "WHITE:");
+
+ 	glLoadIdentity();
+	glTranslatef(0.0f, 0.0, 0.8f);*/
+}
+
 void ConsoleDisp(){
 	Coord coord(0, 0);
 	char state[]={'x','o','-'};
 	int stone;
 	
 	std::cout<<" 12345678"<<std::endl;
-	for(int i=0;i<BoardSize;i++){
-		std::cout<<i+1;
-		for(int j=0;j<BoardSize;j++){
+	for(int i=1;i<=BoardSize;i++){
+		std::cout<<i;
+		for(int j=1;j<=BoardSize;j++){
 			coord.set(i, j);
 			stone=game.board.get(coord);
 			std::cout<<state[stone];
 		}
 		std::cout<<std::endl;
 	}
-	
-	std::cout<<std::endl;
 }
 
+void renderString(const float x, const float y, const char* string){
+	const float z = -1.0f;
+	glColor3dv(black);
+	glRasterPos3f(x, y, z);
+	char* p = (char*) string;
+	while (*p != '\0')
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *p++);
+}

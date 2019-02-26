@@ -7,7 +7,8 @@
 const int BoardSize=8;
 const int Black=0;
 const int White=1;
-const int Wall=2;
+const int Empty=2;
+const int Wall=3;
 
 Coord::Coord(int i, int j){
 	this->x=i;
@@ -36,20 +37,14 @@ void Board::inits(){
 			std::fill(vec.begin(), vec.end(), Wall);
 		});
 	std::for_each(this->board.begin()+1, this->board.end()-1, [](auto& vec){
-			std::fill(vec.begin()+1, vec.end()-1, Wall);
+			std::fill(vec.begin()+1, vec.end()-1, Empty);
 		});
-	/*
-	 board[BOARD_SIZE / 2 - 1][BOARD_SIZE / 2] = BLACK;
-   board[BOARD_SIZE / 2][BOARD_SIZE / 2 - 1] = BLACK;
-    
-   board[BOARD_SIZE / 2][BOARD_SIZE / 2] = WHITE;
-   board[BOARD_SIZE / 2 - 1][BOARD_SIZE / 2 - 1] = WHITE;
-	*/
-	this->board.at(BoardSize/2-1).at(BoardSize/2)=Black;
-	this->board.at(BoardSize/2).at(BoardSize/2-1)=Black;
 	
+	this->board.at(BoardSize/2).at(BoardSize/2+1)=Black;
+	this->board.at(BoardSize/2+1).at(BoardSize/2)=Black;
+	
+	this->board.at(BoardSize/2+1).at(BoardSize/2+1)=White;
 	this->board.at(BoardSize/2).at(BoardSize/2)=White;
-	this->board.at(BoardSize/2-1).at(BoardSize/2-1)=White;
 }
 
 void Board::clear(){
@@ -69,7 +64,7 @@ Turn::Turn():turn(0){
 }
 
 void Turn::clear(){
-	turn=0;
+	this->turn=0;
 }
 
 void Turn::update(){
@@ -99,3 +94,50 @@ void Order::update(){
 int Order::get() const{
 	return this->order;
 }
+
+Score::Score():score(0){
+	
+}
+
+Score::~Score(){
+	
+}
+
+void Score::clear(){
+	this->score=0;
+}
+
+
+void Score::add(const int num){
+	this->score+=num;
+}
+
+int Score::get() const{
+	return this->score;
+}
+
+Game::Game(){
+	this->score.resize(2);
+	this->score.at(Black).add(2);
+	this->score.at(White).add(2);
+}
+
+Game::~Game(){
+	
+}
+
+void Game::clearPossible(){
+	this->possible.clear();
+}
+
+int Game::check(const Coord& coord) const{
+	const int stone=this->board.get(coord);
+	if(stone!=Empty)
+		return NONE;
+	int x,y;
+	unsigned dir=NONE;
+	
+}
+
+
+

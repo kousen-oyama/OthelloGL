@@ -3,17 +3,19 @@
 #include<iostream>
 #include<vector>
 #include<algorithm>
+#include<array>
 #include"GL/glut.h"
 
 extern const int BoardSize;
 extern const int Black;
+extern const int Empty;
 extern const int White;
 extern const int Wall;
 
 class Coord{
 private:
 public:
-	Coord(){};
+	Coord();
 	Coord(int i, int j);
 	void set(int i, int j);
 public:
@@ -59,23 +61,39 @@ class Score{
 private:
 	int score;
 public:
-	Score():score(0){}
-	~Score(){}
+	Score();
+	~Score();
 	void clear();
-	void add();
-	int get(int num);
+	void add(const int num);
+	int get() const;
 };
 	
 class Game{
 private:
+	enum Direction{
+		NONE=0,
+		UPPER=1,
+		UPPER_LEFT=2,
+		LEFT=4,
+		LOWER_LEFT=8,
+		LOWER=16,
+		LOWER_RIGHT=32,
+		RIGHT=64,
+		UPPER_RIGHT=128
+	};
+	std::vector<std::vector<int>> possible;
+private:
+	void clearPossible();
+	int check(const Coord& coord) const;
 public:
+	//score[0]πı¿–°¢score[1]«Ú¿–
+	std::vector<Score> score;
 	Turn turn;
 	Order order;
-	Score score;
 	Board board;
 public:
-	Game(){};
-	~Game(){};
+	Game();
+	~Game();
 };
 
 
