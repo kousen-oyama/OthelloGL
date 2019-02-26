@@ -15,21 +15,21 @@ void glutDispStone();
 void ConsoleDisp();
 
 GLdouble black[]={0.0, 0.0, 0.0};
+GLdouble white[]={1.0, 1.0, 1.0};
 GLdouble green[]={0.0, 0.5, 0.0};
 
 Game game;
 
 int main(int argc, char* argv[]){
-	ConsoleDisp();
-	/*	glutInit(&argc, argv);
+	glutInit(&argc, argv);
 	glutCreateWindow("OtelloGL");
 	inits();
+	ConsoleDisp();
 	glutDisplayFunc(display);
 	glutReshapeFunc(resize);
 	glutKeyboardFunc(keyboard);
 	glutMouseFunc(mouse);
 	glutMainLoop();
-	*/
 	return 0;
 }
 
@@ -128,14 +128,35 @@ void glutDispBoard(){
 	glEnd();
 }
 void glutDispStone(){
-	
+	Coord coord(0, 0);
+	int stone;
+	static const int pointSize=60;
+	glPointSize(pointSize);
+	for(int i=0;i<BoardSize;i++){
+		for(int j=0;j<BoardSize;j++){
+			coord.set(i, j);
+			stone=game.board.get(coord);
+			if(stone==Black){
+				glColor3dv(black);
+				glBegin(GL_POINTS);
+				glVertex2i(120+80*i, 120+80*j);
+				glEnd();
+			}
+			if(stone==White){
+				glColor3dv(white);
+				glBegin(GL_POINTS);
+				glVertex2i(120+80*i, 120+80*j);
+				glEnd();
+			}
+		}
+	}
 }
 
 void ConsoleDisp(){
 	Coord coord(0, 0);
 	char state[]={'x','o','-'};
 	int stone;
-	std::cout<<"12345678"<<std::endl;
+	std::cout<<" 12345678"<<std::endl;
 	for(int i=0;i<BoardSize;i++){
 		std::cout<<i+1;
 		for(int j=0;j<BoardSize;j++){
