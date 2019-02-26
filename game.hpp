@@ -7,7 +7,7 @@
 
 extern const int BoardSize;
 extern const int Black;
-extern const int Whitw;
+extern const int White;
 extern const int Wall;
 
 class Coord{
@@ -15,6 +15,8 @@ private:
 public:
 	Coord(){};
 	Coord(int i, int j);
+	void set(int i, int j);
+public:
 	int x;
 	int y;
 };
@@ -28,7 +30,7 @@ public:
 	void clear();
 	void inits();
 	void set(const Coord& coord, const int state);
-	int get(const Coord& coord);
+	int get(const Coord& coord) const;
 };
 
 class Turn{
@@ -39,7 +41,7 @@ public:
 	~Turn(){};
 	void clear();
 	void update();
-	int get();
+	int get() const;
 };
 
 class Order{
@@ -50,15 +52,7 @@ public:
 	~Order();
 	void clear();
 	void update();
-	int get();
-}
-
-class Game{
-private:
-	Turn turn;
-public:
-	Game(){};
-	~Game(){};
+	int get() const;
 };
 
 class Score{
@@ -71,5 +65,18 @@ public:
 	void add();
 	int get(int num);
 };
+	
+class Game{
+private:
+public:
+	Turn turn;
+	Order order;
+	Score score;
+	Board board;
+public:
+	Game(){};
+	~Game(){};
+};
+
 
 

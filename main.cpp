@@ -12,15 +12,16 @@ void display();
 
 void glutDispBoard();
 void glutDispStone();
+void ConsoleDisp();
 
 GLdouble black[]={0.0, 0.0, 0.0};
 GLdouble green[]={0.0, 0.5, 0.0};
 
 Game game;
-Board board;
 
 int main(int argc, char* argv[]){
-	glutInit(&argc, argv);
+	ConsoleDisp();
+	/*	glutInit(&argc, argv);
 	glutCreateWindow("OtelloGL");
 	inits();
 	glutDisplayFunc(display);
@@ -28,6 +29,7 @@ int main(int argc, char* argv[]){
 	glutKeyboardFunc(keyboard);
 	glutMouseFunc(mouse);
 	glutMainLoop();
+	*/
 	return 0;
 }
 
@@ -71,6 +73,23 @@ void keyboard(unsigned char key, int x, int y){
 	}	
 }
 
+void mouse(int button, int state, int x, int y){
+	if(state==GLUT_UP) return;
+	switch(button){
+	case GLUT_LEFT_BUTTON:
+		std::cout<<"left button"<<std::endl;		
+		break;
+	case GLUT_RIGHT_BUTTON:
+		std::cout<<"right button"<<std::endl;
+		break;
+	case GLUT_MIDDLE_BUTTON:
+		std::cout<<"middle button"<<std::endl;		
+		break;
+	default:
+		break;
+	}
+}
+
 void display(){
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	glutDispBoard();
@@ -112,20 +131,20 @@ void glutDispStone(){
 	
 }
 
-void mouse(int button, int state, int x, int y){
-	if(state==GLUT_UP) return;
-	switch(button){
-	case GLUT_LEFT_BUTTON:
-		std::cout<<"left button"<<std::endl;		
-		break;
-	case GLUT_RIGHT_BUTTON:
-		std::cout<<"right button"<<std::endl;
-		break;
-	case GLUT_MIDDLE_BUTTON:
-		std::cout<<"middle button"<<std::endl;		
-		break;
-	default:
-		break;
+void ConsoleDisp(){
+	Coord coord(0, 0);
+	char state[]={'x','o','-'};
+	int stone;
+	std::cout<<"12345678"<<std::endl;
+	for(int i=0;i<BoardSize;i++){
+		std::cout<<i+1;
+		for(int j=0;j<BoardSize;j++){
+			coord.set(i, j);
+			stone=game.board.get(coord);
+			std::cout<<state[stone];
+		}
+		std::cout<<std::endl;
 	}
+	std::cout<<std::endl;
 }
 
