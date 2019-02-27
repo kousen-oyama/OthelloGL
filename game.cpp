@@ -10,6 +10,10 @@ const int White=1;
 const int Empty=2;
 const int Wall=3;
 
+Coord::Coord(){
+	
+}
+
 Coord::Coord(int i, int j){
 	this->x=i;
 	this->y=j;
@@ -132,11 +136,104 @@ void Game::clearPossible(){
 
 int Game::check(const Coord& coord) const{
 	const int stone=this->board.get(coord);
-	if(stone!=Empty)
-		return NONE;
+	if(stone!=Empty)	return NONE;
+
 	int x,y;
 	unsigned dir=NONE;
+
+	coord.y-1;
+	if(this->board.get(coord)){
+		x=coord.x;
+		y=coord.y-2;
+		while(this->board.get(coord)==-this->order.get())
+			y--;
+		if(this->board.get(coord)==this->order.get())
+			dir|=UPPER;
+	}
+
+	coord.y+1;
+	if(this->board.get(coord)){
+		x=coord.x;
+		y=coord.y+2;
+		while(this->board.get(coord)==-this->order.get())
+			y++;
+		if(this->board.get(coord)==this->order.get())
+			dir|=LOWER;
+	}
+
+	coord.x-1;
+	if(this->board.get(coord)){
+		x=coord.x-2;
+		y=coord.y;
+		while(this->board.get(coord)==-this->order.get())
+			x--;
+		if(this->board.get(coord)==this->order.get())
+			dir|=LEFT;
+	}
+
+	coord.x+1;
+	if(this->board.get(coord)){
+		x=coord.x+2;
+		y=coord.y;
+		while(this->board.get(coord)==-this->order.get())
+			x++;
+		if(this->board.get(coord)==this->order.get())
+			dir|=RIGHT;
+	}
+
+	coord.x+1;
+	coord.y-1;
+	if(this->board.get(coord)){
+		x=coord.x+2;
+		y=coord.y-2;
+		while(this->board.get(coord)==-this->order.get()){
+			x++;
+			y--;
+		}
+		if(this->board.get(coord)==this->order.get())
+			dir|=UPPER_RIGHT;
+	}
+
+	coord.x-1;
+	coord.y-1;
+	if(this->board.get(coord)){
+		x=coord.x-2;
+		y=coord.y-2;
+		while(this->board.get(coord)==-this->order.get()){
+			x--;
+			y--;
+		}
+		if(this->board.get(coord)==this->order.get())
+			dir|=UPPER_LEFT;
+	}
+
+	coord.x-1;
+	coord.y+1;
+	if(this->board.get(coord)){
+		x=coord.x-2;
+		y=coord.y+2;
+		while(this->board.get(coord)==-this->order.get()){
+			x--;
+			y++;
+		}
+		if(this->board.get(coord)==this->order.get())
+			dir|=LOWER_LEFT;
+	}
+
+	coord.x+1;
+	coord.y+1;
+	if(this->board.get(coord)){
+		x=coord.x+2;
+		y=coord.y+2;
+		while(this->board.get(coord)==-this->order.get()){
+			x++;
+			y++;
+		}
+		if(this->board.get(coord)==this->order.get())
+			dir|=LOWER_RIGHT;
+	}
 	
+	return dir;
 }
 
 

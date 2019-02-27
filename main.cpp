@@ -149,17 +149,21 @@ void glutDispStone(){
 }
 
 void glutDispScoreAndTurn(){
-	std::cout<<"turn"<<game.order.get()+1<<std::endl;
-	std::cout<<"black"<<game.score.at(Black).get()<<std::endl;
-	std::cout<<"black"<<game.score.at(White).get()<<std::endl<<std::endl;;
+	std::cout<<"order:"<<(game.order.get()?"white":"black")<<std::endl;
+	std::cout<<"turn :"<<game.turn.get()+1<<std::endl;
+	std::cout<<"black:"<<game.score.at(Black).get()<<std::endl;
+	std::cout<<"black:"<<game.score.at(White).get()<<std::endl<<std::endl;;
 	
-	/*glLoadIdentity();
+	/*
+	glLoadIdentity();
 	
 	renderString(-0.6f, -0.6f, "BLACK:");
 	renderString(-0.6f, -0.7f, "WHITE:");
 
  	glLoadIdentity();
-	glTranslatef(0.0f, 0.0, 0.8f);*/
+	glTranslatef(0.0f, 0.0, 0.8f);
+  */
+	
 }
 
 void ConsoleDisp(){
