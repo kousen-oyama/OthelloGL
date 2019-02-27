@@ -262,37 +262,73 @@ void Game::flip(const Coord& coord){
 	//座標を保存しておくように変更する
 	int dir=this->check(coord);
 	Coord val;
+
+	this->board.set(coord, this->order.get());
+
+	return;
 	
 	if(dir&UPPER){
-		
+		val.x=coord.x;
+		val.y=coord.y-1;
+		while(this->board.get(val)!=this->order.get()){
+			
+		}
 	}
 
 	if(dir&LOWER){
-		
+		val.x=coord.x;
+		val.y=coord.y+1;
+		while(this->board.get(val)!=this->order.get()){
+			
+		}
 	}
 
 	if(dir&LEFT){
-		
+		val.x=coord.x-1;
+		val.y=coord.y;
+		while(this->board.get(val)!=this->order.get()){
+			
+		}
 	}
 
 	if(dir&RIGHT){
-		
+		val.x=coord.x+1;
+		val.y=coord.y;
+		while(this->board.get(val)!=this->order.get()){
+			
+		}
 	}
 
 	if(dir&UPPER_RIGHT){
-		
+		val.x=coord.x+1;
+		val.y=coord.y-1;
+		while(this->board.get(val)!=this->order.get()){
+			
+		}
 	}
 
 	if(dir&UPPER_LEFT){
-		
+		val.x=coord.x-1;
+		val.y=coord.y-1;
+		while(this->board.get(val)!=this->order.get()){
+			
+		}
 	}
 
 	if(dir&LOWER_LEFT){
-		
+		val.x=coord.x-1;
+		val.y=coord.y+1;
+		while(this->board.get(val)!=this->order.get()){
+			
+		}
 	}
 
 	if(dir&LOWER_RIGHT){
-		
+		val.x=coord.x+1;
+		val.y=coord.y+1;
+		while(this->board.get(val)!=this->order.get()){
+			
+		}
 	}
 	
 	this->turn.update();
