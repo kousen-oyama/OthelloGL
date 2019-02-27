@@ -57,19 +57,22 @@ public:
 	int get() const;
 };
 
-class Score{
+template<typename T> class Score{
 private:
-	int score;
+	//score[0]πı¿–°¢score[1]«Ú¿–
+	T score[3];
 public:
-	Score();
-	~Score();
-	void clear();
-	void add(const int num);
-	int get() const;
+	T& operator[](int color){
+		return this->score[color+1];
+	}
+	const T& operator[](int color) const{
+		return this->score[color+1];
+	}
 };
 	
 class Game{
 private:
+	Score<int> score;
 	enum Direction{
 		NONE=0,
 		UPPER=1,
@@ -84,9 +87,8 @@ private:
 	std::vector<std::vector<int>> possible;
 private:
 	void clearPossible();
+	void clearScore();
 public:
-	//score[0]πı¿–°¢score[1]«Ú¿–
-	std::vector<Score> score;
 	Turn turn;
 	Order order;
 	Board board;
@@ -94,6 +96,8 @@ public:
 	Game();
 	~Game();
 	int check(const Coord& coord) const;
+
+	int getScore(int color) const;
 };
 
 

@@ -87,10 +87,10 @@ void mouse(int button, int state, int x, int y){
 	const int j=y/celSize;
 	Coord coord(i,j);
 	std::cout<<"("<<x<<","<<y<<") > "<<"("<<i<<","<<j<<")"<<std::endl;
-	/*	if(game.check(coord))
+	if(game.check(coord))
 		std::cout<<"true"<<std::endl;
 	else
-	std::cout<<"false"<<std::endl;		*/
+	std::cout<<"false"<<std::endl;	 
 }
 
 void display(){
@@ -136,8 +136,10 @@ void glutDispBoard(){
 void glutDispStone(){
 	Coord coord(0, 0);
 	int stone;
+	
 	const int num=celSize/2;
 	static const int pointSize=40;
+	
 	glPointSize(pointSize);
 	for(int i=1;i<=BoardSize;i++){
 		for(int j=1;j<=BoardSize;j++){
@@ -154,10 +156,11 @@ void glutDispStone(){
 }
 
 void glutDispScoreAndTurn(){
+	
 	std::cout<<"order:"<<(game.order.get()+1?"white":"black")<<std::endl;
   std::cout<<"turn :"<<game.turn.get()+1<<std::endl;
-  //std::cout<<"black:"<<game.score.at(Black).get()<<std::endl;
-	//std::cout<<"black:"<<game.score.at(White).get()<<std::endl<<std::endl;;
+	std::cout<<"black:"<<game.getScore(Black)<<std::endl;
+	std::cout<<"white:"<<game.getScore(White)<<std::endl;	
 	
 	/*
 	glLoadIdentity();

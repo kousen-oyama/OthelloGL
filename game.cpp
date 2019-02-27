@@ -98,31 +98,10 @@ int Order::get() const{
 	return this->order;
 }
 
-Score::Score():score(0){
-	
-}
-
-Score::~Score(){
-	
-}
-
-void Score::clear(){
-	this->score=0;
-}
-
-
-void Score::add(const int num){
-	this->score+=num;
-}
-
-int Score::get() const{
-	return this->score;
-}
-
 Game::Game(){
-	this->score.resize(2);
-	//	this->score.at(Black).add(2);
-	//	this->score.at(White).add(2);
+	this->score[Black]=2;
+	this->score[White]=2;
+	this->clearPossible();
 }
 
 Game::~Game(){
@@ -131,6 +110,11 @@ Game::~Game(){
 
 void Game::clearPossible(){
 	this->possible.clear();
+}
+
+void Game::clearScore(){
+	this->score[Black]=0;
+	this->score[White]=0;	
 }
 
 int Game::check(const Coord& coord) const{
@@ -234,5 +218,7 @@ int Game::check(const Coord& coord) const{
 	return dir;
 }
 
-
+int Game::getScore(int color) const{
+	return this->score[color];
+}
 
