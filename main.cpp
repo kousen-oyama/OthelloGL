@@ -87,7 +87,10 @@ void mouse(int button, int state, int x, int y){
 	const int j=y/celSize;
 	Coord coord(i,j);
 	std::cout<<"("<<x<<","<<y<<") > "<<"("<<i<<","<<j<<")"<<std::endl;
+	
 	game.move(coord);
+	ConsoleDisp();
+	glutDispScoreAndTurn();
 	glutDispStone();
 	glFlush();
 }
@@ -185,7 +188,7 @@ void ConsoleDisp(){
 	for(int i=1;i<=BoardSize;i++){
 		std::cout<<i;
 		for(int j=1;j<=BoardSize;j++){
-			coord.set(i, j);
+			coord.set(j, i);
 			switch(stone=game.board.get(coord)){
 			case BLACK:
 				std::cout<<"x";

@@ -103,6 +103,7 @@ Game::Game(){
 	this->score[Black]=2;
 	this->score[White]=2;
 	this->clearPossible();
+	this->makePossible();
 }
 
 Game::~Game(){
@@ -265,13 +266,12 @@ void Game::flip(const Coord& coord){
 
 	this->board.set(coord, this->order.get());
 
-	return;
-	
 	if(dir&UPPER){
 		val.x=coord.x;
 		val.y=coord.y-1;
 		while(this->board.get(val)!=this->order.get()){
-			
+			this->board.set(val, this->order.get());
+			val.y--;
 		}
 	}
 
@@ -279,7 +279,8 @@ void Game::flip(const Coord& coord){
 		val.x=coord.x;
 		val.y=coord.y+1;
 		while(this->board.get(val)!=this->order.get()){
-			
+			this->board.set(val, this->order.get());
+			val.y++;
 		}
 	}
 
@@ -287,7 +288,8 @@ void Game::flip(const Coord& coord){
 		val.x=coord.x-1;
 		val.y=coord.y;
 		while(this->board.get(val)!=this->order.get()){
-			
+			this->board.set(val, this->order.get());
+			val.x--;
 		}
 	}
 
@@ -295,7 +297,8 @@ void Game::flip(const Coord& coord){
 		val.x=coord.x+1;
 		val.y=coord.y;
 		while(this->board.get(val)!=this->order.get()){
-			
+			this->board.set(val, this->order.get());
+			val.x++;
 		}
 	}
 
@@ -303,7 +306,9 @@ void Game::flip(const Coord& coord){
 		val.x=coord.x+1;
 		val.y=coord.y-1;
 		while(this->board.get(val)!=this->order.get()){
-			
+			this->board.set(val, this->order.get());
+			val.x++;
+			val.y--;
 		}
 	}
 
@@ -311,7 +316,9 @@ void Game::flip(const Coord& coord){
 		val.x=coord.x-1;
 		val.y=coord.y-1;
 		while(this->board.get(val)!=this->order.get()){
-			
+			this->board.set(val, this->order.get());
+			val.x--;
+			val.y--;
 		}
 	}
 
@@ -319,7 +326,9 @@ void Game::flip(const Coord& coord){
 		val.x=coord.x-1;
 		val.y=coord.y+1;
 		while(this->board.get(val)!=this->order.get()){
-			
+			this->board.set(val, this->order.get());
+			val.x--;
+			val.y++;
 		}
 	}
 
@@ -327,16 +336,18 @@ void Game::flip(const Coord& coord){
 		val.x=coord.x+1;
 		val.y=coord.y+1;
 		while(this->board.get(val)!=this->order.get()){
-			
+			this->board.set(val, this->order.get());
+			val.x++;
+			val.y++;
 		}
 	}
 	
 	this->turn.update();
 	this->order.update();
+	this->makePossible();
 }
 
 void Game::move(const Coord &coord){
-	this->makePossible();
 
 	std::cout<<std::boolalpha;
 	std::cout<<this->isFlip(coord)<<std::endl;
