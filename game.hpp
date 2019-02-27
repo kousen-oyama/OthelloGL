@@ -84,10 +84,16 @@ private:
 		RIGHT=64,
 		UPPER_RIGHT=128
 	};
-	std::vector<std::vector<int>> possible;
+	std::vector<std::vector<Coord>> possible;
+	std::vector<std::vector<Coord>> log;
 private:
 	void clearPossible();
+	void clearLog();
 	void clearScore();
+	int check(const Coord& coord) const;
+	void makePossible();
+	void flip(const Coord& coord);
+	bool isFlip(const Coord& coord) const;
 public:
 	Turn turn;
 	Order order;
@@ -95,9 +101,8 @@ public:
 public:
 	Game();
 	~Game();
-	int check(const Coord& coord) const;
-
-	int getScore(int color) const;
+	void move(const Coord& coord);
+	int getScore(int color) const; 
 };
 
 

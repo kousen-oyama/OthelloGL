@@ -87,10 +87,7 @@ void mouse(int button, int state, int x, int y){
 	const int j=y/celSize;
 	Coord coord(i,j);
 	std::cout<<"("<<x<<","<<y<<") > "<<"("<<i<<","<<j<<")"<<std::endl;
-	if(game.check(coord))
-		std::cout<<"true"<<std::endl;
-	else
-		std::cout<<"false"<<std::endl;
+	game.move(coord);
 }
 
 void display(){
@@ -177,12 +174,10 @@ void glutDispScoreAndTurn(){
 void ConsoleDisp(){
 	Coord coord(0, 0);
 	int stone;
-
-	enum Color{
-		BLACK=-1,
-		WHITE=1,
-		EMPTY=0
-	};
+	
+	static const int BLACK=-1;
+	static const int WHITE=1;
+	static const int EMPTY=0;
 	
 	std::cout<<" 12345678"<<std::endl;
 	for(int i=1;i<=BoardSize;i++){
