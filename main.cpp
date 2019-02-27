@@ -80,12 +80,17 @@ void keyboard(unsigned char key, int x, int y){
 
 void mouse(int button, int state, int x, int y){
 	const bool input=(button==GLUT_LEFT_BUTTON&&state==GLUT_DOWN);
-	const bool coord=(x<celSize||x>celSize*9||y<celSize||y>celSize*9);
-	if(!input||coord)  return;
+	const bool isOut=(x<celSize||x>celSize*9||y<celSize||y>celSize*9);
+	if(!input||isOut)  return;
 	//入力された座標を処理する形式へ変換
 	const int i=x/celSize;
 	const int j=y/celSize;
+	Coord coord(i,j);
 	std::cout<<"("<<x<<","<<y<<") > "<<"("<<i<<","<<j<<")"<<std::endl;
+	/*	if(game.check(coord))
+		std::cout<<"true"<<std::endl;
+	else
+	std::cout<<"false"<<std::endl;		*/
 }
 
 void display(){
@@ -140,7 +145,7 @@ void glutDispStone(){
 			stone=game.board.get(coord);
 			if(stone==Empty||stone==Wall)
 				continue;
-			glColor3dv(stone?white:black);
+			glColor3dv(stone+1?white:black);
 			glBegin(GL_POINTS);
 			glVertex2i(num+celSize*i, num+celSize*j);
 			glEnd();
@@ -149,10 +154,10 @@ void glutDispStone(){
 }
 
 void glutDispScoreAndTurn(){
-	std::cout<<"order:"<<(game.order.get()?"white":"black")<<std::endl;
-	std::cout<<"turn :"<<game.turn.get()+1<<std::endl;
-	std::cout<<"black:"<<game.score.at(Black).get()<<std::endl;
-	std::cout<<"black:"<<game.score.at(White).get()<<std::endl<<std::endl;;
+	std::cout<<"order:"<<(game.order.get()+1?"white":"black")<<std::endl;
+  std::cout<<"turn :"<<game.turn.get()+1<<std::endl;
+  //std::cout<<"black:"<<game.score.at(Black).get()<<std::endl;
+	//std::cout<<"black:"<<game.score.at(White).get()<<std::endl<<std::endl;;
 	
 	/*
 	glLoadIdentity();
@@ -168,16 +173,32 @@ void glutDispScoreAndTurn(){
 
 void ConsoleDisp(){
 	Coord coord(0, 0);
-	char state[]={'x','o','-'};
 	int stone;
+
+	enum Color{
+		BLACK=-1,
+		WHITE=1,
+		EMPTY=0
+	};
 	
 	std::cout<<" 12345678"<<std::endl;
 	for(int i=1;i<=BoardSize;i++){
 		std::cout<<i;
 		for(int j=1;j<=BoardSize;j++){
 			coord.set(i, j);
-			stone=game.board.get(coord);
-			std::cout<<state[stone];
+			switch(stone=game.board.get(coord)){
+			case BLACK:
+				std::cout<<"x";
+				break;
+			case WHITE:
+				std::cout<<"o";
+				break;
+			case EMPTY:
+				std::cout<<"-";
+				break;
+			default:
+				break;
+			}
 		}
 		std::cout<<std::endl;
 	}

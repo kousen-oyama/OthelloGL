@@ -5,18 +5,17 @@
 #include"game.hpp"
 
 const int BoardSize=8;
-const int Black=0;
+const int Black=-1;
 const int White=1;
-const int Empty=2;
-const int Wall=3;
+const int Empty=0;
+const int Wall=2;
 
 Coord::Coord(){
 	
 }
 
-Coord::Coord(int i, int j){
-	this->x=i;
-	this->y=j;
+Coord::Coord(int i, int j):x(i),y(j){
+	
 }
 
 void Coord::set(int i, int j){
@@ -79,7 +78,7 @@ int Turn::get() const{
 	return this->turn;
 }
 
-Order::Order():order(0){
+Order::Order():order(-1){
 	
 }
 
@@ -88,11 +87,11 @@ Order::~Order(){
 }
 
 void Order::clear(){
-	this->order=0;
+	this->order=-1;
 }
 
 void Order::update(){
-	this->order=this->order%2;
+	this->order=-this->order;
 }
 
 int Order::get() const{
@@ -122,8 +121,8 @@ int Score::get() const{
 
 Game::Game(){
 	this->score.resize(2);
-	this->score.at(Black).add(2);
-	this->score.at(White).add(2);
+	//	this->score.at(Black).add(2);
+	//	this->score.at(White).add(2);
 }
 
 Game::~Game(){
@@ -141,7 +140,6 @@ int Game::check(const Coord& coord) const{
 	int x,y;
 	unsigned dir=NONE;
 
-	coord.y-1;
 	if(this->board.get(coord)){
 		x=coord.x;
 		y=coord.y-2;

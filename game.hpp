@@ -84,7 +84,6 @@ private:
 	std::vector<std::vector<int>> possible;
 private:
 	void clearPossible();
-	int check(const Coord& coord) const;
 public:
 	//score[0]πı¿–°¢score[1]«Ú¿–
 	std::vector<Score> score;
@@ -94,6 +93,7 @@ public:
 public:
 	Game();
 	~Game();
+	int check(const Coord& coord) const;
 };
 
 
