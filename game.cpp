@@ -259,7 +259,41 @@ void Game::makePossible(){
 }
 
 void Game::flip(const Coord& coord){
+	//座標を保存しておくように変更する
+	int dir=this->check(coord);
+	Coord val;
+	
+	if(dir&UPPER){
+		
+	}
 
+	if(dir&LOWER){
+		
+	}
+
+	if(dir&LEFT){
+		
+	}
+
+	if(dir&RIGHT){
+		
+	}
+
+	if(dir&UPPER_RIGHT){
+		
+	}
+
+	if(dir&UPPER_LEFT){
+		
+	}
+
+	if(dir&LOWER_LEFT){
+		
+	}
+
+	if(dir&LOWER_RIGHT){
+		
+	}
 	
 	this->turn.update();
 	this->order.update();
