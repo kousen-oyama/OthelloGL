@@ -90,7 +90,7 @@ void mouse(int button, int state, int x, int y){
 	if(game.check(coord))
 		std::cout<<"true"<<std::endl;
 	else
-	std::cout<<"false"<<std::endl;	 
+		std::cout<<"false"<<std::endl;
 }
 
 void display(){

@@ -2,6 +2,7 @@
 #include<vector>
 #include<algorithm>
 #include<cassert>
+#include<cstdio>
 #include"game.hpp"
 
 const int BoardSize=8;
@@ -123,95 +124,98 @@ int Game::check(const Coord& coord) const{
 
 	int x,y;
 	unsigned dir=NONE;
+	Coord val;
 
-	if(this->board.get(coord)){
-		x=coord.x;
-		y=coord.y-2;
-		while(this->board.get(coord)==-this->order.get())
-			y--;
-		if(this->board.get(coord)==this->order.get())
+	val.x=coord.x;
+	val.y=coord.y-1;
+	if(this->board.get(val)==-this->order.get()){
+		val.y-=1;
+		while(this->board.get(val)==-this->order.get())
+			val.y--;
+		if(this->board.get(val)==this->order.get())
 			dir|=UPPER;
 	}
 
-	coord.y+1;
-	if(this->board.get(coord)){
-		x=coord.x;
-		y=coord.y+2;
-		while(this->board.get(coord)==-this->order.get())
-			y++;
-		if(this->board.get(coord)==this->order.get())
+	val.x=coord.x;	
+	val.y=coord.y+1;
+	if(this->board.get(val)==-this->order.get()){
+		val.y+=1;
+		while(this->board.get(val)==-this->order.get())
+			val.y++;
+		if(this->board.get(val)==this->order.get())
 			dir|=LOWER;
 	}
 
-	coord.x-1;
-	if(this->board.get(coord)){
-		x=coord.x-2;
-		y=coord.y;
-		while(this->board.get(coord)==-this->order.get())
-			x--;
-		if(this->board.get(coord)==this->order.get())
+	val.x=coord.x-1;
+	val.y=coord.y;	
+	if(this->board.get(val)==-this->order.get()){
+		val.x-=1;
+		while(this->board.get(val)==-this->order.get())
+			val.x--;
+		if(this->board.get(val)==this->order.get())
 			dir|=LEFT;
 	}
 
-	coord.x+1;
-	if(this->board.get(coord)){
-		x=coord.x+2;
-		y=coord.y;
-		while(this->board.get(coord)==-this->order.get())
-			x++;
-		if(this->board.get(coord)==this->order.get())
+	//---À®¸ù---
+	val.x=coord.x+1;
+	val.y=coord.y;	
+	if(this->board.get(val)==-this->order.get()){
+		val.x+=1;
+		while(this->board.get(val)==-this->order.get())
+			val.x++;
+		if(this->board.get(val)==this->order.get())
 			dir|=RIGHT;
 	}
 
-	coord.x+1;
-	coord.y-1;
-	if(this->board.get(coord)){
-		x=coord.x+2;
-		y=coord.y-2;
-		while(this->board.get(coord)==-this->order.get()){
-			x++;
-			y--;
+	val.x=coord.x+1;
+	val.y=coord.y-1;	
+	if(this->board.get(val)==-this->order.get()){
+		val.x+=1;
+		val.y-=1;
+		while(this->board.get(val)==-this->order.get()){
+			val.x++;
+			val.y--;
 		}
 		if(this->board.get(coord)==this->order.get())
 			dir|=UPPER_RIGHT;
 	}
 
-	coord.x-1;
-	coord.y-1;
-	if(this->board.get(coord)){
-		x=coord.x-2;
-		y=coord.y-2;
-		while(this->board.get(coord)==-this->order.get()){
-			x--;
-			y--;
+	val.x=coord.x-1;
+	val.y=coord.y-1;	
+	if(this->board.get(val)==-this->order.get()){
+		val.x-=1;
+		val.y-=1;
+		while(this->board.get(val)==-this->order.get()){
+			val.x--;
+			val.y--;
 		}
-		if(this->board.get(coord)==this->order.get())
+		if(this->board.get(val)==this->order.get())
 			dir|=UPPER_LEFT;
 	}
 
-	coord.x-1;
-	coord.y+1;
-	if(this->board.get(coord)){
-		x=coord.x-2;
-		y=coord.y+2;
-		while(this->board.get(coord)==-this->order.get()){
-			x--;
-			y++;
+	val.x=coord.x-1;
+	val.y=coord.y+1;	
+	if(this->board.get(val)==-this->order.get()){
+		val.x-=1;
+		val.y+=1;
+		while(this->board.get(val)==-this->order.get()){
+			val.x--;
+			val.y++;
 		}
-		if(this->board.get(coord)==this->order.get())
+		if(this->board.get(val)==this->order.get())
 			dir|=LOWER_LEFT;
 	}
 
-	coord.x+1;
-	coord.y+1;
-	if(this->board.get(coord)){
-		x=coord.x+2;
-		y=coord.y+2;
-		while(this->board.get(coord)==-this->order.get()){
-			x++;
-			y++;
+	val.x=coord.x+1;
+	val.y=coord.y+1;	
+	if(this->board.get(val)==-this->order.get()){
+		val.x+=1;
+		val.y+=1;
+		while(this->board.get(val)==-this->order.get()){
+			val.x++;
+			val.y++;
 		}
-		if(this->board.get(coord)==this->order.get())
+		if(this->board.get(val)==this->order.get())
 			dir|=LOWER_RIGHT;
 	}
 	
