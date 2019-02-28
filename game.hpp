@@ -4,6 +4,7 @@
 #include<vector>
 #include<algorithm>
 #include<array>
+#include"disp.hpp"
 #include"GL/glut.h"
 
 extern const int BoardSize;
@@ -51,7 +52,9 @@ private:
 	int order;
 public:
 	Order();
+	Order(int num);
 	~Order();
+	void set(int num);
 	void clear();
 	void update();
 	int get() const;
@@ -72,7 +75,10 @@ public:
 	
 class Game{
 private:
+
+	static const int MaxTurn=60;
 	Score<int> score;
+	
 	enum Direction{
 		NONE=0,
 		UPPER=1,
@@ -84,13 +90,14 @@ private:
 		RIGHT=64,
 		UPPER_RIGHT=128
 	};
+	
 	std::vector<std::vector<Coord>> possible;
 	std::vector<std::vector<Coord>> log;
 private:
 	void clearPossible();
 	void clearLog();
 	void clearScore();
-	int check(const Coord& coord) const;
+	int check(const Coord& coord, const Order& obj) const;
 	void makePossible();
 	void flip(const Coord& coord);
 	bool isFlip(const Coord& coord) const;
@@ -102,7 +109,9 @@ public:
 	Game();
 	~Game();
 	bool move(const Coord& coord);
-	int getScore(int color) const; 
+	bool pass();
+	bool finish() const;
+	int getScore(const int color) const; 
 };
 
 

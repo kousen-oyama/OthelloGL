@@ -63,14 +63,13 @@ void mouse(int button, int state, int x, int y){
 	
 	Coord coord(i,j);
 	std::cout<<std::endl<<"("<<x<<","<<y<<") > "<<"("<<i<<","<<j<<") ";
-	
+  
 	if(game.move(coord)){
 			ConsoleDisp();
 			glutDispScoreAndTurn();
 			glutDispStone();
 			glFlush();
 	}
-	
 }
 
 void display(){

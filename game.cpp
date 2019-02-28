@@ -83,6 +83,10 @@ Order::Order():order(-1){
 	
 }
 
+Order::Order(int num):order(num){
+	
+}
+
 Order::~Order(){
 	
 }
@@ -123,7 +127,7 @@ void Game::clearScore(){
 	this->score[White]=0;	
 }
 
-int Game::check(const Coord& coord) const{
+int Game::check(const Coord& coord, const Order& obj) const{
 	
 	const int stone=this->board.get(coord);
 	if(stone!=Empty)
@@ -135,93 +139,93 @@ int Game::check(const Coord& coord) const{
 
 	val.x=coord.x;
 	val.y=coord.y-1;
-	if(this->board.get(val)==-this->order.get()){
+	if(this->board.get(val)==-obj.get()){
 		val.y--;
-		while(this->board.get(val)==-this->order.get())
+		while(this->board.get(val)==-obj.get())
 			val.y--;
-		if(this->board.get(val)==this->order.get())
+		if(this->board.get(val)==obj.get())
 			dir|=UPPER;
 	}
 
 	val.x=coord.x;	
 	val.y=coord.y+1;
-	if(this->board.get(val)==-this->order.get()){
+	if(this->board.get(val)==-obj.get()){
 		val.y++;
-		while(this->board.get(val)==-this->order.get())
+		while(this->board.get(val)==-obj.get())
 			val.y++;
-		if(this->board.get(val)==this->order.get())
+		if(this->board.get(val)==obj.get())
 			dir|=LOWER;
 	}
 
 	val.x=coord.x-1;
 	val.y=coord.y;	
-	if(this->board.get(val)==-this->order.get()){
+	if(this->board.get(val)==-obj.get()){
 		val.x--;
-		while(this->board.get(val)==-this->order.get())
+		while(this->board.get(val)==-obj.get())
 			val.x--;
-		if(this->board.get(val)==this->order.get())
+		if(this->board.get(val)==obj.get())
 			dir|=LEFT;
 	}
 
 	val.x=coord.x+1;
 	val.y=coord.y;	
-	if(this->board.get(val)==-this->order.get()){
+	if(this->board.get(val)==-obj.get()){
 		val.x++;
-		while(this->board.get(val)==-this->order.get())
+		while(this->board.get(val)==-obj.get())
 			val.x++;
-		if(this->board.get(val)==this->order.get())
+		if(this->board.get(val)==obj.get())
 			dir|=RIGHT;
 	}
 
 	val.x=coord.x+1;
 	val.y=coord.y-1;	
-	if(this->board.get(val)==-this->order.get()){
+	if(this->board.get(val)==-obj.get()){
 		val.x++;
 		val.y--;
-		while(this->board.get(val)==-this->order.get()){
+		while(this->board.get(val)==-obj.get()){
 			val.x++;
 			val.y--;
 		}
-		if(this->board.get(val)==this->order.get())
+		if(this->board.get(val)==obj.get())
 			dir|=UPPER_RIGHT;
 	}
 
 	val.x=coord.x-1;
 	val.y=coord.y-1;	
-	if(this->board.get(val)==-this->order.get()){
+	if(this->board.get(val)==-obj.get()){
 		val.x--;
 		val.y--;
-		while(this->board.get(val)==-this->order.get()){
+		while(this->board.get(val)==-obj.get()){
 			val.x--;
 			val.y--;
 		}
-		if(this->board.get(val)==this->order.get())
+		if(this->board.get(val)==obj.get())
 			dir|=UPPER_LEFT;
 	}
 
 	val.x=coord.x-1;
 	val.y=coord.y+1;	
-	if(this->board.get(val)==-this->order.get()){
+	if(this->board.get(val)==-obj.get()){
 		val.x--;
 		val.y++;
-		while(this->board.get(val)==-this->order.get()){
+		while(this->board.get(val)==-obj.get()){
 			val.x--;
 			val.y++;
 		}
-		if(this->board.get(val)==this->order.get())
+		if(this->board.get(val)==obj.get())
 			dir|=LOWER_LEFT;
 	}
 
 	val.x=coord.x+1;
 	val.y=coord.y+1;	
-	if(this->board.get(val)==-this->order.get()){
+	if(this->board.get(val)==-obj.get()){
 		val.x++;
 		val.y++;
-		while(this->board.get(val)==-this->order.get()){
+		while(this->board.get(val)==-obj.get()){
 			val.x++;
 			val.y++;
 		}
-		if(this->board.get(val)==this->order.get())
+		if(this->board.get(val)==obj.get())
 			dir|=LOWER_RIGHT;
 	}
 	
@@ -237,10 +241,7 @@ bool Game::isFlip(const Coord &coord) const{
 				return;
 			}
 		});
-	if(flag)
-		return true;
-	
-	return false;
+	return flag;
 }
 
 void Game::makePossible(){
@@ -252,7 +253,7 @@ void Game::makePossible(){
 		coord.y=i;
 		for(int j=1;j<=BoardSize;j++){
 			coord.x=j;
-			if(this->check(coord))
+			if(this->check(coord,this->order))
 				vec.push_back(coord);
 		}
 	}
@@ -261,7 +262,7 @@ void Game::makePossible(){
 
 void Game::flip(const Coord& coord){
 	//座標を保存しておくように変更する
-	int dir=this->check(coord);
+	int dir=this->check(coord, this->order);
 	Coord val;
 
 	this->board.set(coord, this->order.get());
@@ -356,10 +357,52 @@ bool Game::move(const Coord &coord){
 		return false;
 
 	this->flip(coord);
+
+	if(this->finish()){
+		std::cout<<std::endl<<"--finish---"<<std::endl;
+		return false;
+	}
+	
+	if(this->pass())
+		std::cout<<"---pass---"<<std::endl;
+	
 	return true;
 }
 
-int Game::getScore(int color) const{
+bool Game::pass(){
+	
+	if(this->possible.size())
+		return false;
+
+	this->order.update();
+	this->turn.update();
+	this->makePossible();
+	
+	return true;
+}
+
+bool Game::finish() const{
+	if(this->turn.get()==MaxTurn)
+		return true;
+
+	Coord coord;
+	Order order(this->order.get());
+	
+	bool flag=true;
+	
+	for(int i=1;i<=BoardSize;i++){
+		coord.x=i;
+		for(int j=1;j<=BoardSize;j++){
+			coord.y=j;
+			if(this->check(coord, order))
+				flag=false;
+		}
+	}
+
+	return flag;
+}
+
+int Game::getScore(const int color) const{
 	return this->score[color];
 }
 
