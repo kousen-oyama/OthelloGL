@@ -51,20 +51,26 @@ void keyboard(unsigned char key, int x, int y){
 }
 
 void mouse(int button, int state, int x, int y){
+	
 	const bool input=(button==GLUT_LEFT_BUTTON&&state==GLUT_DOWN);
 	const bool isOut=(x<celSize||x>celSize*9||y<celSize||y>celSize*9);
-	if(!input||isOut)  return;
+	if(!input||isOut)
+		return;
+	
 	//入力された座標を処理する形式へ変換
 	const int i=x/celSize;
 	const int j=y/celSize;
-	Coord coord(i,j);
-	std::cout<<"("<<x<<","<<y<<") > "<<"("<<i<<","<<j<<")"<<std::endl;
 	
-	game.move(coord);
-	ConsoleDisp();
- 	glutDispScoreAndTurn();
-	glutDispStone();
-	glFlush();
+	Coord coord(i,j);
+	std::cout<<std::endl<<"("<<x<<","<<y<<") > "<<"("<<i<<","<<j<<") ";
+	
+	if(game.move(coord)){
+			ConsoleDisp();
+			glutDispScoreAndTurn();
+			glutDispStone();
+			glFlush();
+	}
+	
 }
 
 void display(){
@@ -78,7 +84,7 @@ void display(){
 
 void glutDispBoard(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	
 	static const int lineSize=3;
 	static const int pointSize=11;
 	
@@ -135,16 +141,7 @@ void glutDispScoreAndTurn(){
   std::cout<<"turn :"<<game.turn.get()+1<<std::endl;
 	std::cout<<"black:"<<game.getScore(Black)<<std::endl;
 	std::cout<<"white:"<<game.getScore(White)<<std::endl;	
-	
-	/*
-	glLoadIdentity();
-	
-	renderString(-0.6f, -0.6f, "BLACK:");
-	renderString(-0.6f, -0.7f, "WHITE:");
 
- 	glLoadIdentity();
-	glTranslatef(0.0f, 0.0, 0.8f);
-	*/
 }
 
 void ConsoleDisp(){

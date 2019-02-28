@@ -101,7 +101,7 @@ public:
 public:
 	Game();
 	~Game();
-	void move(const Coord& coord);
+	bool move(const Coord& coord);
 	int getScore(int color) const; 
 };
 

@@ -347,15 +347,16 @@ void Game::flip(const Coord& coord){
 	this->makePossible();
 }
 
-void Game::move(const Coord &coord){
+bool Game::move(const Coord &coord){
 
 	std::cout<<std::boolalpha;
 	std::cout<<this->isFlip(coord)<<std::endl;
 
 	if(!isFlip(coord))
-		return;
+		return false;
 
 	this->flip(coord);
+	return true;
 }
 
 int Game::getScore(int color) const{
