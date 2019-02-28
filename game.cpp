@@ -136,7 +136,7 @@ int Game::check(const Coord& coord) const{
 	val.x=coord.x;
 	val.y=coord.y-1;
 	if(this->board.get(val)==-this->order.get()){
-		val.y-=1;
+		val.y--;
 		while(this->board.get(val)==-this->order.get())
 			val.y--;
 		if(this->board.get(val)==this->order.get())
@@ -146,7 +146,7 @@ int Game::check(const Coord& coord) const{
 	val.x=coord.x;	
 	val.y=coord.y+1;
 	if(this->board.get(val)==-this->order.get()){
-		val.y+=1;
+		val.y++;
 		while(this->board.get(val)==-this->order.get())
 			val.y++;
 		if(this->board.get(val)==this->order.get())
@@ -156,7 +156,7 @@ int Game::check(const Coord& coord) const{
 	val.x=coord.x-1;
 	val.y=coord.y;	
 	if(this->board.get(val)==-this->order.get()){
-		val.x-=1;
+		val.x--;
 		while(this->board.get(val)==-this->order.get())
 			val.x--;
 		if(this->board.get(val)==this->order.get())
@@ -166,7 +166,7 @@ int Game::check(const Coord& coord) const{
 	val.x=coord.x+1;
 	val.y=coord.y;	
 	if(this->board.get(val)==-this->order.get()){
-		val.x+=1;
+		val.x++;
 		while(this->board.get(val)==-this->order.get())
 			val.x++;
 		if(this->board.get(val)==this->order.get())
@@ -176,21 +176,21 @@ int Game::check(const Coord& coord) const{
 	val.x=coord.x+1;
 	val.y=coord.y-1;	
 	if(this->board.get(val)==-this->order.get()){
-		val.x+=1;
-		val.y-=1;
+		val.x++;
+		val.y--;
 		while(this->board.get(val)==-this->order.get()){
 			val.x++;
 			val.y--;
 		}
-		if(this->board.get(coord)==this->order.get())
+		if(this->board.get(val)==this->order.get())
 			dir|=UPPER_RIGHT;
 	}
 
 	val.x=coord.x-1;
 	val.y=coord.y-1;	
 	if(this->board.get(val)==-this->order.get()){
-		val.x-=1;
-		val.y-=1;
+		val.x--;
+		val.y--;
 		while(this->board.get(val)==-this->order.get()){
 			val.x--;
 			val.y--;
@@ -202,8 +202,8 @@ int Game::check(const Coord& coord) const{
 	val.x=coord.x-1;
 	val.y=coord.y+1;	
 	if(this->board.get(val)==-this->order.get()){
-		val.x-=1;
-		val.y+=1;
+		val.x--;
+		val.y++;
 		while(this->board.get(val)==-this->order.get()){
 			val.x--;
 			val.y++;
@@ -215,8 +215,8 @@ int Game::check(const Coord& coord) const{
 	val.x=coord.x+1;
 	val.y=coord.y+1;	
 	if(this->board.get(val)==-this->order.get()){
-		val.x+=1;
-		val.y+=1;
+		val.x++;
+		val.y++;
 		while(this->board.get(val)==-this->order.get()){
 			val.x++;
 			val.y++;
