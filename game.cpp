@@ -263,15 +263,22 @@ void Game::makePossible(){
 void Game::flip(const Coord& coord){
 	//座標を保存しておくように変更する
 	int dir=this->check(coord, this->order);
+	
+	int currentStone=0;
+	int pastStone=0;
+	
 	Coord val;
-
+	
 	this->board.set(coord, this->order.get());
-
+	currentStone++;
+	
 	if(dir&UPPER){
 		val.x=coord.x;
 		val.y=coord.y-1;
 		while(this->board.get(val)!=this->order.get()){
 			this->board.set(val, this->order.get());
+			currentStone++;
+			pastStone--;
 			val.y--;
 		}
 	}
@@ -281,6 +288,8 @@ void Game::flip(const Coord& coord){
 		val.y=coord.y+1;
 		while(this->board.get(val)!=this->order.get()){
 			this->board.set(val, this->order.get());
+			currentStone++;
+			pastStone--;			
 			val.y++;
 		}
 	}
@@ -290,6 +299,8 @@ void Game::flip(const Coord& coord){
 		val.y=coord.y;
 		while(this->board.get(val)!=this->order.get()){
 			this->board.set(val, this->order.get());
+			currentStone++;
+			pastStone--;			
 			val.x--;
 		}
 	}
@@ -299,6 +310,8 @@ void Game::flip(const Coord& coord){
 		val.y=coord.y;
 		while(this->board.get(val)!=this->order.get()){
 			this->board.set(val, this->order.get());
+			currentStone++;
+			pastStone--;			
 			val.x++;
 		}
 	}
@@ -308,6 +321,8 @@ void Game::flip(const Coord& coord){
 		val.y=coord.y-1;
 		while(this->board.get(val)!=this->order.get()){
 			this->board.set(val, this->order.get());
+			currentStone++;
+			pastStone--;			
 			val.x++;
 			val.y--;
 		}
@@ -318,6 +333,8 @@ void Game::flip(const Coord& coord){
 		val.y=coord.y-1;
 		while(this->board.get(val)!=this->order.get()){
 			this->board.set(val, this->order.get());
+			currentStone++;
+			pastStone--;			
 			val.x--;
 			val.y--;
 		}
@@ -328,6 +345,8 @@ void Game::flip(const Coord& coord){
 		val.y=coord.y+1;
 		while(this->board.get(val)!=this->order.get()){
 			this->board.set(val, this->order.get());
+			currentStone++;
+			pastStone--;			
 			val.x--;
 			val.y++;
 		}
@@ -338,10 +357,15 @@ void Game::flip(const Coord& coord){
 		val.y=coord.y+1;
 		while(this->board.get(val)!=this->order.get()){
 			this->board.set(val, this->order.get());
+			currentStone++;
+			pastStone--;			
 			val.x++;
 			val.y++;
 		}
 	}
+
+	this->score[this->order.get()]+=currentStone;
+	this->score[-this->order.get()]+=pastStone;
 	
 	this->turn.update();
 	this->order.update();
